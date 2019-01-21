@@ -15,8 +15,11 @@
 Clear-Host
 Write-Host "Please enter the search group name e.g. Role-"
 $ADGroupLike = Read-Host
+Get-ADGroup -Filter * | where {$_.SamAccountName -like "*$ADGroupLike*"} | Select-Object Name,GroupCategory,Groupscope,ObjectClass
+
+
 ForEach ($AdGroup in $ADGroups) {
-Get-ADGroup -Filter *  -Identity $ADGroup
+Get-ADGroupMember -Filter *  | where {$_.SamAccountName -like "$ADGroup"}
 Write-Host "$AdGroup"
 Write-Host ""
 Write-Host "==============" -ForegroundColor Red
