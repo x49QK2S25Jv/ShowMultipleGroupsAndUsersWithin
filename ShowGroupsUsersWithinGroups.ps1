@@ -6,7 +6,7 @@ Get-ADGroupMember -Identity $GetAdGroupSingle | Select-Object Name
 Clear-Host
 Write-Host "$GetAdGroupSingle"
 Write-Host "$GetAdGroupSingle"
-#Completed############################################
+#####################Completed########################
 ######################################################
 ######################################################
 ######################################################
@@ -18,9 +18,11 @@ $ReturnedADGroups = Get-ADGroup -Filter * | Where {$_.SamAccountName -Like "*$AD
 
 
 ForEach ($Group in $ReturnedADGroups) {
-Get-ADGroupMember -Identity "$Group" | Select-Object Name
-Write-Host "$ReturnedADGroups"
+$GroupMembers = Get-ADGroupMember -Identity "$Group" | Select-Object Name
+Write-Host "Group " -NoNewline -ForegroundColor Green
 Write-Host "$Group"
+Write-Host "GroupMembers" -NoNewline -ForegroundColor Green
+Write-Host "$GroupMembers"
 Write-Host ""
 Write-Host "==============" -ForegroundColor Red
 }
