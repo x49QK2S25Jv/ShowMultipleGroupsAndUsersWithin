@@ -28,6 +28,3 @@ Write-Host "==============" -ForegroundColor Red
 }
 
 
-#Works
-Get-ADGroup -Filter * | Sort-Object | Select-Object Name,SamAccountName | where {$_.SamAccountName -like "*Role*"}
-
