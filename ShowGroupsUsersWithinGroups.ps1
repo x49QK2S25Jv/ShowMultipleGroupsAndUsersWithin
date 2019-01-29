@@ -1,17 +1,23 @@
-﻿######################################################
-######################################################
+﻿$menu=@"
+1 Show members of a single group
+2 Search for all groups with a similar name
+Select a task by number or Q to quit
+"@
+
+
+do {
+$r = Read-Host $menu
+
+Switch ($r) {
+"1" {
 #Get members of a single group
 $GetAdGroupSingle = Read-Host "Please enter a group name"
 Get-ADGroupMember -Identity $GetAdGroupSingle | Select-Object Name
 Clear-Host
 Write-Host "$GetAdGroupSingle"
 Write-Host "$GetAdGroupSingle"
-#####################Completed########################
-######################################################
-######################################################
-######################################################
-
-#Get Multiple Groups and return mulitple members in those groups
+    }  
+"2" {
 Clear-Host
 $ADGroupSearch = Read-Host -Prompt "Please enter the search group name e.g. Role-"
 $ReturnedADGroups = Get-ADGroup -Filter * | Where {$_.SamAccountName -Like "*$ADGroupSearch*"}
@@ -27,3 +33,14 @@ Write-Host "Group members " -ForegroundColor Green
 Write-Output "$ADGroupMembers"
 Write-Host "==========" -ForegroundColor Red `n
 }
+        }
+default {
+    Write-Host "I don't understand what you want to do." -ForegroundColor Yellow
+    }
+"Q" {
+    Write-Host "Closing" -ForegroundColor Green
+    Sleep 1
+    Exit
+    }
+        }}#end switch
+until ($response -eq "q")
