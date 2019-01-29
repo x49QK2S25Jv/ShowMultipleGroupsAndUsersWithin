@@ -14,17 +14,18 @@ Write-Host "$GetAdGroupSingle"
 #Get Multiple Groups and return mulitple members in those groups
 Clear-Host
 $ADGroupSearch = Read-Host -Prompt "Please enter the search group name e.g. Role-"
-$ReturnedADGroups = Get-ADGroup -Filter * | Where {$_.SamAccountName -Like "*$ADGroupSearch*"} | Sort-Object 
+$ReturnedADGroups = Get-ADGroup -Filter * | Where {$_.SamAccountName -Like "*$ADGroupSearch*"}
+
 
 
 ForEach ($Group in $ReturnedADGroups) {
-$GroupMembers = Get-ADGroupMember -Identity "$Group" | Select-Object Name
-Write-Host "Group " -NoNewline -ForegroundColor Green
-Write-Host "$Group"
-Write-Host "GroupMembers" -NoNewline -ForegroundColor Green
-Write-Host "$GroupMembers"
+$GroupNameFormatted = Get-ADGroup -Identity $Group | Select-Object Name -ExpandProperty Name
+Write-Host "Group Name " -NoNewline -ForegroundColor Green
+Write-Host  "$GroupNameFormatted"
+$ADGroupMembers = Get-ADGroupMember -Identity "$Group" | Select-Object Name -ExpandProperty Name
+Write-Host "Group members " -ForegroundColor Green
+Write-Host "$ADGroupMembers"
 Write-Host ""
-Write-Host "==============" -ForegroundColor Red
+Write-Host "==========" -ForegroundColor Red
+
 }
-
-
