@@ -4,7 +4,7 @@
 Select a task by number or Q to quit
 "@
 
-
+Clear-Host
 do {
 $r = Read-Host $menu
 
@@ -26,10 +26,11 @@ $ReturnedADGroups = Get-ADGroup -Filter * | Where {$_.SamAccountName -Like "*$AD
 
 ForEach ($Group in $ReturnedADGroups) {
 $GroupNameFormatted = Get-ADGroup -Identity $Group | Select-Object Name -ExpandProperty Name
+Start-Sleep -Milliseconds 10
 Write-Host "Group Name " -NoNewline -ForegroundColor Green
 Write-Host  "$GroupNameFormatted"
 $ADGroupMembers = Get-ADGroupMember -Identity "$Group" | Select-Object Name -ExpandProperty Name | Out-String
-Write-Host "Group members " -ForegroundColor Green
+Write-Host "Members " -ForegroundColor Green
 Write-Output "$ADGroupMembers"
 Write-Host "==========" -ForegroundColor Red `n
 }
@@ -37,7 +38,7 @@ Write-Host "==========" -ForegroundColor Red `n
 default {
     Write-Host "I don't understand what you want to do." -ForegroundColor Yellow
     }
-"Q" {
+"q" {
     Write-Host "Closing" -ForegroundColor Green
     Sleep 1
     Exit
