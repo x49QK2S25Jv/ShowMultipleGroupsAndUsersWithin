@@ -22,10 +22,8 @@ ForEach ($Group in $ReturnedADGroups) {
 $GroupNameFormatted = Get-ADGroup -Identity $Group | Select-Object Name -ExpandProperty Name
 Write-Host "Group Name " -NoNewline -ForegroundColor Green
 Write-Host  "$GroupNameFormatted"
-$ADGroupMembers = Get-ADGroupMember -Identity "$Group" | Select-Object Name -ExpandProperty Name
+$ADGroupMembers = Get-ADGroupMember -Identity "$Group" | Select-Object Name -ExpandProperty Name | Out-String
 Write-Host "Group members " -ForegroundColor Green
-Write-Host "$ADGroupMembers"
-Write-Host ""
-Write-Host "==========" -ForegroundColor Red
-
+Write-Output "$ADGroupMembers"
+Write-Host "==========" -ForegroundColor Red `n
 }
