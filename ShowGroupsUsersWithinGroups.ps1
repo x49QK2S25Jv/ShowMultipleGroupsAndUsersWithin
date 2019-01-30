@@ -43,7 +43,7 @@ $ExportSaveLocation = Read-Host -Prompt "Please enter the location to save the o
 $ExportJoin = Join-Path -Path "$ExportSaveLocation" -ChildPath "GroupAndMember-Export-$Date"
 
 ForEach ($Group in $ReturnedADGroups) {
-$GroupNameFormatted = Get-ADGroup -Identity $Group | Select-Object Name -ExpandProperty Name
+$GroupNameFormatted = Get-ADGroup -Identity $Group | Select-Object Name -ExpandProperty Name 
 Start-Sleep -Milliseconds 10
 Write-Host "Group Name " -NoNewline -ForegroundColor Green
 Write-Host  "$GroupNameFormatted"
@@ -51,7 +51,8 @@ $ADGroupMembers = Get-ADGroupMember -Identity "$Group" | Select-Object Name -Exp
 Write-Host "Members " -ForegroundColor Green
 Write-Output "$ADGroupMembers"
 Write-Host "==========" -ForegroundColor Red `n
-} Out-File  "$ExportJoin.txt"
+Out-File  "$ExportJoin.txt" -Append
+} 
     }
 default {
     Write-Host "I don't understand what you want to do." -ForegroundColor Yellow
