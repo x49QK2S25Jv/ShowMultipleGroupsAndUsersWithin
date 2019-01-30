@@ -23,8 +23,6 @@ Clear-Host
 $ADGroupSearch = Read-Host -Prompt "Please enter the search group name e.g. Role-"
 $ReturnedADGroups = Get-ADGroup -Filter * | Where {$_.SamAccountName -Like "*$ADGroupSearch*"}
 
-
-
 ForEach ($Group in $ReturnedADGroups) {
 $GroupNameFormatted = Get-ADGroup -Identity $Group | Select-Object Name -ExpandProperty Name
 Start-Sleep -Milliseconds 10
@@ -36,12 +34,13 @@ Write-Output "$ADGroupMembers"
 Write-Host "==========" -ForegroundColor Red `n
 }
         }
-"3" {
+"3"{
 Clear-Host
+$Date = Get-date -Format dd-MM-yyyy
 $ADGroupSearch = Read-Host -Prompt "Please enter the search group name e.g. Role-"
 $ReturnedADGroups = Get-ADGroup -Filter * | Where {$_.SamAccountName -Like "*$ADGroupSearch*"}
-
-
+$ExportSaveLocation = Read-Host -Prompt "Please enter the location to save the output"
+$ExportJoin = Join-Path -Path "$ExportSaveLocation" -ChildPath "GroupAndMember-Export-$Date"
 
 ForEach ($Group in $ReturnedADGroups) {
 $GroupNameFormatted = Get-ADGroup -Identity $Group | Select-Object Name -ExpandProperty Name
@@ -52,15 +51,8 @@ $ADGroupMembers = Get-ADGroupMember -Identity "$Group" | Select-Object Name -Exp
 Write-Host "Members " -ForegroundColor Green
 Write-Output "$ADGroupMembers"
 Write-Host "==========" -ForegroundColor Red `n
-Read-Host -Prompt "Export to CSV? (y/n)"
-
-
-$KeyPress = $host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
-
-
-$ExportSaveLocation = Read-Host -Prompt "Please enter the location to save the output"
-
-        }
+} Out-File  "$ExportJoin.txt"
+    }
 default {
     Write-Host "I don't understand what you want to do." -ForegroundColor Yellow
     }
