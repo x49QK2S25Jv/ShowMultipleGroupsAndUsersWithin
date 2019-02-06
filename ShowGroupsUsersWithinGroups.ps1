@@ -13,10 +13,11 @@ Switch ($r) {
 "1" {
 #Get members of a single group
 $GetAdGroupSingle = Read-Host "Please enter a group name"
-Get-ADGroupMember -Identity $GetAdGroupSingle | Select-Object Name
-Clear-Host
+$ADGroupMemberSingle = Get-ADGroupMember -Identity "$GetAdGroupSingle" | Select-Object Name | Out-String
+Write-Host "Group Name " -NoNewline -ForegroundColor Green
 Write-Host "$GetAdGroupSingle"
-Write-Host "$GetAdGroupSingle"
+Write-Host "Members " -ForegroundColor Green
+Write-Host "$ADGroupMemberSingle"
     }  
 "2" {
 Clear-Host
@@ -46,12 +47,14 @@ ForEach ($Group in $ReturnedADGroups) {
 $GroupNameFormatted = Get-ADGroup -Identity $Group | Select-Object Name -ExpandProperty Name 
 Start-Sleep -Milliseconds 10
 Write-Host "Group Name " -NoNewline -ForegroundColor Green
-Write-Host  "$GroupNameFormatted"
+Write-Output  "$GroupNameFormatted" | Out-File "$ExportJoin.txt" -Append
+Write-Host  "$GroupNameFormatted" | Out-File "$ExportJoin.txt" -Append
 $ADGroupMembers = Get-ADGroupMember -Identity "$Group" | Select-Object Name -ExpandProperty Name | Out-String
 Write-Host "Members " -ForegroundColor Green
-Write-Output "$ADGroupMembers"
-Write-Host "==========" -ForegroundColor Red `n
-Out-File  "$ExportJoin.txt" -Append
+Write-Output "$ADGroupMembers" | Out-File  "$ExportJoin.txt" -Append
+Write-Host "$ADGroupMembers"
+Write-Host "==========" -ForegroundColor Red `n | Out-File  "$ExportJoin.txt" -Append
+#Out-File  "$ExportJoin.txt" -Append
 } 
     }
 default {
